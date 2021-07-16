@@ -27,7 +27,16 @@ const TaskListItem = ({task, taskState}) => (
 			</ClayList.ItemField>
 		)}
 
-		{taskState === STATES.completedState && (
+		{taskState === STATES.completedFailureState && (
+			<ClayList.ItemField>
+				{formatDuration(
+					new Date(task.finishedTime).getTime() -
+						new Date(task.startTime).getTime()
+				)}
+			</ClayList.ItemField>
+		)}
+
+		{taskState === STATES.completedSuccessState && (
 			<ClayList.ItemField>
 				{formatDuration(
 					new Date(task.finishedTime).getTime() -

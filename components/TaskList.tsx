@@ -14,7 +14,8 @@ const TaskList = ({project, taskStateFilter}) => {
 		refreshInterval: 5000,
 	});
 
-	const isCompletedStateRoute = taskStateFilter === STATES.completedState.id;
+	const isCompletedFailureStateRoute = taskStateFilter === STATES.completedFailureState.id;
+	const isCompletedSuccessStateRoute = taskStateFilter === STATES.completedSuccessState.id;
 	const isPendingStateRoute = taskStateFilter === STATES.pendingState.id;
 	const isRunningStateRoute = taskStateFilter === STATES.runningState.id;
 
@@ -22,7 +23,8 @@ const TaskList = ({project, taskStateFilter}) => {
 		<ClayLayout.ContentRow>
 			<ClayLayout.ContentCol expand>
 				{projectData.runningTasks.length !== 0 &&
-					!isCompletedStateRoute &&
+					!isCompletedFailureStateRoute &&
+					!isCompletedSuccessStateRoute &&
 					!isPendingStateRoute && (
 						<ClayList className="shadow-sm">
 							<ClayList.Header className="bg-warning">
@@ -39,7 +41,7 @@ const TaskList = ({project, taskStateFilter}) => {
 						</ClayList>
 					)}
 
-				{!isCompletedStateRoute && !isRunningStateRoute && (
+				{!isCompletedFailureStateRoute && !isCompletedSuccessStateRoute && !isRunningStateRoute && (
 					<ClayList className="shadow-sm">
 						<ClayList.Header className="bg-info">
 							{'Pending Tasks'}
