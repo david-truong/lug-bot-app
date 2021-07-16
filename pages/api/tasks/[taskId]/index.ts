@@ -12,7 +12,7 @@ export default async function (req, res) {
 		res.status(200).json(req.body);
 	} else {
 		const task = await new Promise((res) => {
-			fetch('http://localhost:9000/tasks/' + taskId)
+			fetch(`http://localhost:9000/tasks/${taskId}`)
 			  .then(response => response.json())
 			  .then((jsonData) => {
 			    res(jsonData)

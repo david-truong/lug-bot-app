@@ -1,10 +1,17 @@
-import faker from 'faker';
+export default async function (req, res) {	
+	const {taskId} = req.query;
 
-export default async function (_req, res) {
-	// REPLACE WITH LUGBOT API
 	const log = await new Promise((res) => {
-		res({log: faker.lorem.paragraph()});
-	});
+			fetch(`http://localhost:9000/tasks/${taskId}/log`)
+			  .then(response => response.json())
+			  .then((jsonData) => {
+			    res(jsonData)
+			  })
+			  .catch((error) => {
+			    // handle your errors here
+			    console.error(error)
+			  });
+		});
 
 	res.status(200).json(log);
 }

@@ -36,7 +36,7 @@ export default function Task({initialStagedChanges, project, task}) {
 
 	useEffect(() => {
 		if (!isCompletedSuccess) {
-			terminalRef.current.pushToStdout(data?.log);
+			terminalRef.current.pushToStdout(data?.taskLog);
 		}
 	}, [data]);
 
