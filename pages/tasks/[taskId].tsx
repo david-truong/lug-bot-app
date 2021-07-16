@@ -25,7 +25,7 @@ export default function Task({initialStagedChanges, project, task}) {
 
 	const {displayType, label} = STATES.byId[task.state];
 
-	const isCompleted = task.state === STATES.byName.complete.id;
+	const isCompletedSuccess = task.state === STATES.byName.completedSuccess.state;
 
 	function postStaged(add, locator) {
 		fetch(`/api/tasks/${task.id}/staged`, {
@@ -35,7 +35,7 @@ export default function Task({initialStagedChanges, project, task}) {
 	}
 
 	useEffect(() => {
-		if (!isCompleted) {
+		if (!isCompletedSuccess) {
 			terminalRef.current.pushToStdout(data?.log);
 		}
 	}, [data]);
@@ -65,7 +65,7 @@ export default function Task({initialStagedChanges, project, task}) {
 					{task.name}
 				</ClayLayout.ContentCol>
 
-				{isCompleted && (
+				{isCompletedSuccess && (
 					<>
 						<ClayLayout.ContentCol expand>
 							<ClayLink
@@ -103,7 +103,7 @@ export default function Task({initialStagedChanges, project, task}) {
 					</>
 				)}
 
-				{!isCompleted && (
+				{!isCompletedSuccess && (
 					<ClayLayout.ContentCol>
 						<ClayLink
 							button
@@ -126,7 +126,7 @@ export default function Task({initialStagedChanges, project, task}) {
 			</ClayLayout.ContentRow>
 
 			<ClayLayout.ContentRow>
-				{!isCompleted && (
+				{!isCompletedSuccess && (
 					<ClayLayout.ContentCol expand>
 						<Terminal
 							commands={{}}
@@ -141,7 +141,7 @@ export default function Task({initialStagedChanges, project, task}) {
 					</ClayLayout.ContentCol>
 				)}
 
-				{isCompleted && (
+				{isCompletedSuccess && (
 					<ClayLayout.ContentCol expand>
 						{task.recommendations && (
 							<>

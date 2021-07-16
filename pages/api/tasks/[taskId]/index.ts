@@ -15,12 +15,14 @@ export default async function (req, res) {
 			fetch('http://localhost:9000/tasks/' + taskId)
 			  .then(response => response.json())
 			  .then((jsonData) => {
-			    res.status(200).json(jsonData);
+			    res(jsonData)
 			  })
 			  .catch((error) => {
 			    // handle your errors here
 			    console.error(error)
 			  });
 		});
+
+		res.status(200).json(task);
 	}
-};
+}
