@@ -23,5 +23,5 @@ export default async function (_req, res) {
 		  });
 	});
 
-	res.status(200).json({...tasks, ...project});
+	res.status(200).json({...tasks, ...project, name: "", local: true });
 };

@@ -35,9 +35,7 @@ export default function Task({initialStagedChanges, project, task}) {
 	}
 
 	useEffect(() => {
-		if (!isCompletedSuccess) {
-			terminalRef.current.pushToStdout(data?.taskLog);
-		}
+		terminalRef.current.pushToStdout(data?.log);
 	}, [data]);
 
 	return (
@@ -126,77 +124,43 @@ export default function Task({initialStagedChanges, project, task}) {
 			</ClayLayout.ContentRow>
 
 			<ClayLayout.ContentRow>
-				{!isCompletedSuccess && (
-					<ClayLayout.ContentCol expand>
-						<Terminal
-							commands={{}}
-							readOnly
-							ref={terminalRef}
-							style={{
-								flex: 1,
-								maxHeight: '300px',
-							}}
-							welcomeMessage="Running..."
-						/>
-					</ClayLayout.ContentCol>
-				)}
+				<ClayLayout.ContentCol expand>
+					<Terminal
+						commands={{}}
+						readOnly
+						ref={terminalRef}
+						style={{
+							flex: 1,
+							maxHeight: '300px',
+						}}
+						welcomeMessage="Running..."
+					/>
+				</ClayLayout.ContentCol>
+			</ClayLayout.ContentRow>
+
 
 				{isCompletedSuccess && (
-					<ClayLayout.ContentCol expand>
-						{task.recommendations && (
-							<>
-								<h2>{task.totalRecommendations} Issues: </h2>
+					<ClayLayout.ContentRow>
+						<ClayLayout.ContentCol expand>
+							{task.proposal && (
+								<TaskRecommendation
+									action={task.proposal.action}
+									baseBranchName={task.proposal.baseBranchName}
+								    body={task.proposal.body}
+								    branchName={task.proposal.branchName}
+								    commitComments={task.proposal.commitComments}
+								    diffContent={task.proposal.diffContent}
+								    id={task.proposal.id}
+								    mergeAdvice={task.proposal.mergeAdvice}
+								    name={task.proposal.name}
+								    title={task.proposal.title}
+								/>
+							)}
 
-								{Object.entries(task.recommendations).map(
-									([file, comments]: any) => (
-										<ClayPanel
-											collapsable
-											displayTitle={
-												<span
-													style={{
-														textTransform: 'none',
-													}}
-												>
-													({comments.length}) {file}
-												</span>
-											}
-											displayType="secondary"
-											key={file}
-											showCollapseIcon={true}
-										>
-											{comments.map((comment, i) => {
-												const isStaged =
-													stagedChanges.indexOf(
-														comment.id
-													) !== -1;
-
-												return (
-													<TaskRecommendation
-														comment={comment}
-														comments={comments}
-														index={i}
-														key={comment.id}
-														isStaged={isStaged}
-														postStaged={postStaged}
-														stagedChanges={
-															stagedChanges
-														}
-														handleStagedChanges={
-															setStagedChanges
-														}
-													/>
-												);
-											})}
-										</ClayPanel>
-									)
-								)}
-							</>
-						)}
-
-						{!task.recommendations && <p>No Recommendations</p>}
-					</ClayLayout.ContentCol>
+							{!task.proposal && <>No Proposals</>}
+						</ClayLayout.ContentCol>
+					</ClayLayout.ContentRow>
 				)}
-			</ClayLayout.ContentRow>
 		</ClayLayout.ContainerFluid>
 	);
 }

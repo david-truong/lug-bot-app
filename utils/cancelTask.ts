@@ -5,7 +5,7 @@ export default async function cancelRunningTask(taskId) {
 		response.json()
 	);
 
-	currentTask.state = STATES.byName.waiting.id;
+	currentTask.state = STATES.byName.pending.state;
 
 	await fetch(`/api/tasks/${taskId}`, {
 		body: JSON.stringify(currentTask),
